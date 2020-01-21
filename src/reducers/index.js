@@ -11,12 +11,29 @@ function removeItem(items, payload) {
       items.splice(i, 1);
     }
   }
-  console.log(items);
   return items;
+}
+
+function addItemIfNotExists(items, payload) {
+  for (var i = 0; i < items.length; i++) {
+    if (items[i] === payload) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function createNewList(items, deletedItems, payload) {
+  const ret = addItemIfNotExists(items, payload)
+    ? [payload, ...deletedItems]
+    : [...deletedItems];
+  return ret;
 }
 
 function rootReducer(state = initialState, action) {
   const { type, payload } = action;
+
+  const temp = [...state.items];
 
   switch (type) {
     case ADD_ITEM:
@@ -24,11 +41,12 @@ function rootReducer(state = initialState, action) {
         items: [payload, ...state.items],
         deletedItems: [...state.deletedItems]
       };
-    case REMOVE_ITEM:
+    case REMOVE_ITEM: {
       return {
         items: removeItem([...state.items], payload),
-        deletedItems: [payload, ...state.deletedItems]
+        deletedItems: createNewList(temp, [...state.deletedItems], payload)
       };
+    }
 
     default:
       return state;
