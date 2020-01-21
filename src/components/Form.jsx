@@ -1,45 +1,49 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 
 class Form extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: ''
-        };
-
-        this.handleClickAdd = this.handleClickAdd.bind(this);
-        this.handleClickRemove = this.handleClickRemove.bind(this);
-    }
-
-    handleChange(e) {
-        this.setState({
-            value: e.target.value
-        })
-    }
-
-    handleClickAdd() {
-        this.props.add(this.state.value);
-        this.setState({
-            value: ''
-        })
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: ""
     };
 
-    handleClickRemove() {
-        this.props.remove(this.state.value);
-        this.setState({
-            value: ''
-        })
-    };
+    this.handleClickAdd = this.handleClickAdd.bind(this);
+    this.handleClickRemove = this.handleClickRemove.bind(this);
+  }
 
-    render() {
-        return (
-            <div>
-                <input type={"text"} value={this.state.value} onChange={(e) => this.handleChange(e)}/>
-                <button onClick={this.handleClickAdd}>Submit</button>
-                <button onClick={this.handleClickRemove}>Delete</button>
-            </div>
-        );
-    }
+  handleChange(e) {
+    this.setState({
+      value: e.target.value
+    });
+  }
+
+  handleClickAdd() {
+    if (this.state.value !== "") this.props.add(this.state.value);
+    this.setState({
+      value: ""
+    });
+  }
+
+  handleClickRemove() {
+    if (this.state.value !== "") this.props.remove(this.state.value);
+    this.setState({
+      value: ""
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <input
+          type={"text"}
+          value={this.state.value}
+          onChange={e => this.handleChange(e)}
+        />
+        <button onClick={this.handleClickAdd}>Submit</button>
+        <button onClick={this.handleClickRemove}>Delete</button>
+      </div>
+    );
+  }
 }
 
 export default Form;

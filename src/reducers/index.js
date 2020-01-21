@@ -1,7 +1,8 @@
 import { ADD_ITEM, REMOVE_ITEM } from "../constants/action-types";
 
 const initialState = {
-  items: []
+  items: [],
+  deletedItems: []
 };
 
 function removeItem(items, payload) {
@@ -20,10 +21,14 @@ function rootReducer(state = initialState, action) {
   switch (type) {
     case ADD_ITEM:
       return {
-        items: [payload, ...state.items]
+        items: [payload, ...state.items],
+        deletedItems: [...state.deletedItems]
       };
     case REMOVE_ITEM:
-      return { items: removeItem([...state.items], payload) };
+      return {
+        items: removeItem([...state.items], payload),
+        deletedItems: [payload, ...state.deletedItems]
+      };
 
     default:
       return state;

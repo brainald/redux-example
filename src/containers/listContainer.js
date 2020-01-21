@@ -3,7 +3,8 @@ import List from '../components/List';
 
 function mapStateToProps (state) {
     return {
-        items: state.items
+        items: state.items,
+        deletedItems: state.deletedItems
     };
 }
 
